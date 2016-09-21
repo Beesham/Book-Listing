@@ -1,8 +1,10 @@
 package com.beesham.booklisting;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView bookListview;
     private BookListAdapter bookListAdapter;
     private TextView defaultMessage;
+
+    private String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +100,22 @@ public class MainActivity extends AppCompatActivity {
             //Notify adapter of data changed
             bookListAdapter.notifyDataSetChanged();
         }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("jsonResponse", jsonResponse);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if(savedInstanceState.containsKey("jsonResponse")) {
+            jsonResponse = savedInstanceState.getString("jsonResponse");
+            updateUi(QueryUtils.extractBooks(jsonResponse));
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private class BookListingAsyncTask extends AsyncTask<URL, Void, ArrayList>{
@@ -104,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         protected ArrayList<Book> doInBackground(URL... urls) {
             URL url = createUrl(request_url);
 
-            String jsonResponse = "";
+            jsonResponse = "";
             try {
                 jsonResponse = makeHttpRequest(url);
             } catch (IOException e) {
