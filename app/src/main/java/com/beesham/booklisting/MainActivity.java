@@ -2,6 +2,8 @@ package com.beesham.booklisting;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcelable;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,8 +62,12 @@ public class MainActivity extends AppCompatActivity {
                         .append(BOOK_REQUEST_AUTHORITY)
                         .append(searchEdittext.getText().toString().trim().replace(" ", "+"))
                         .toString();
-                BookListingAsyncTask bookListingAsyncTask = new BookListingAsyncTask();
-                bookListingAsyncTask.execute();
+                if(checkForInternet()) {
+                    BookListingAsyncTask bookListingAsyncTask = new BookListingAsyncTask();
+                    bookListingAsyncTask.execute();
+                }else{
+                    Toast.makeText(MainActivity.this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -116,6 +123,15 @@ public class MainActivity extends AppCompatActivity {
             updateUi(QueryUtils.extractBooks(jsonResponse));
         }
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    /*
+     * Checks if device has internet connection
+     */
+    private boolean checkForInternet(){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private class BookListingAsyncTask extends AsyncTask<URL, Void, ArrayList>{
