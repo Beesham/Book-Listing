@@ -6,6 +6,13 @@ This Android application allows the user to search the Google Books database for
 ![screenshot sep 21 2016 8-47-17 am](https://cloud.githubusercontent.com/assets/10713096/18711478/c7a38122-7fcf-11e6-9747-1ad61edbd07d.png)
 
 
+Key Concepts applied
+--------------------
+-	Fetching data from an API
+- Using an AsyncTask
+-	Parsing a JSON response
+-	Creating a list based on that data and displaying it to the user.
+
 Pre-requisites
 --------------
 
