@@ -3,7 +3,7 @@ Book Listing
 
 This Android application allows the user to search the Google Books database for books on a topic.
 
-![screenshot sep 21 2016 8-47-17 am](https://cloud.githubusercontent.com/assets/10713096/18711478/c7a38122-7fcf-11e6-9747-1ad61edbd07d.png)
+![screenshot oct 1 2016 11-38-02 am](https://cloud.githubusercontent.com/assets/10713096/19015118/8cf42d0a-87c3-11e6-8728-648e8d933a5c.png)
 
 
 Key Concepts applied
